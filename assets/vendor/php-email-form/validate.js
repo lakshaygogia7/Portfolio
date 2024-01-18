@@ -63,14 +63,16 @@
       }
     })
     .then(data => {
+      console.log('Server Response:', data); // Log the response
       thisForm.querySelector('.loading').classList.remove('d-block');
       if (data.trim() == 'OK') {
         thisForm.querySelector('.sent-message').classList.add('d-block');
         thisForm.reset(); 
       } else {
-        throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
+        console.error('Unexpected server response:', data);
       }
     })
+    
     .catch((error) => {
       displayError(thisForm, error);
     });
