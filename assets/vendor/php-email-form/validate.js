@@ -56,23 +56,29 @@
       headers: {'X-Requested-With': 'XMLHttpRequest'}
     })
     .then(response => {
-      if( response.ok ) {
+      if (response.ok) {
         return response.text();
       } else {
-        throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
+        throw new Error(`${response.status} ${response.statusText} ${response.url}`);
       }
     })
     .then(data => {
       console.log('Server Response:', data); // Log the response
       thisForm.querySelector('.loading').classList.remove('d-block');
+      const sentMessage = thisForm.querySelector('.sent-message');
+      sentMessage.classList.remove('d-none'); // Remove the d-none class
+  
       if (data.trim() == 'OK') {
-        thisForm.querySelector('.sent-message').classList.add('d-block');
-        thisForm.reset(); 
+        thisForm.reset();
+  
+        // Hide the success message after 2 seconds (adjust as needed)
+        setTimeout(() => {
+          sentMessage.classList.add('d-none');
+        }, 2000);
       } else {
         console.error('Unexpected server response:', data);
       }
     })
-    
     .catch((error) => {
       displayError(thisForm, error);
     });
